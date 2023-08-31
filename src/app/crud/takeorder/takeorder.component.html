@@ -1,0 +1,175 @@
+<div class="text-center w-[calc(100vw-18rem)] p-8 min-h-screen">
+    <h2 class="text-2xl font-semibold">Take Order</h2>
+    <button class="bg-sky-500 text-white p-2 rounded my-4 hover:bg-sky-700" (click)="toggleModal()">Add Order</button>
+    <div *ngIf="orders.length <= 0" class="flex items-center justify-center flex-col">
+        <img src="../../../assets/data.png" width="500" height="500">
+        <h1>Sorry, there's no data available at the moment.</h1>
+    </div>
+    <table class="w-full text-center overflow-y-auto" *ngIf="orders.length > 0">
+        <thead>
+            <tr>
+                <th class=" p-2 text-gray-600">ID</th>
+                <th class=" p-2 text-gray-600">Nickname</th>
+                <th class=" p-2 text-gray-600">Order Date</th>
+                <th class=" p-2 text-gray-600">Order</th>
+                <th class=" p-2 text-gray-600">Status</th>
+                <th class=" p-2 text-gray-600">Notes</th>
+                <th class=" p-2 text-gray-600">Amount</th>
+                <th class=" p-2 text-gray-600">Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let order of orders">
+            <tr>
+                <td class=" p-2 text-gray-600">{{order.orderID}}</td>
+                <td class=" p-2 text-gray-600">{{order.nickname}}</td>
+                <td class="p-2 text-gray-600">{{ order.orderDate | date:'MMM d yyyy hh:mm a' }}</td>
+                <td class=" p-2 text-gray-600">{{order.coffeeOrder}}-{{order.quantity}}-{{order.size}}</td>
+                <td class=" p-2 text-gray-600">{{order.orderStatus}}</td>
+                <td class=" p-2 text-gray-600">{{order.notes}}</td>
+                <td class=" p-2 text-gray-600">₱{{order.amount}}</td>
+                <td class=" p-2 text-slate-100 flex gap-2 justify-center">
+                    <button (click)="orderDone(order.orderID)" class="rounded p-2"
+                        [ngClass]="{'bg-green-400': order.orderStatus !== 'Served', 'bg-gray-400': order.orderStatus === 'Served'}"
+                        [disabled]="order.orderStatus === 'Served'">
+                        Done
+                    </button>
+                    <button (click)="showEdit(order)" class="rounded p-2"
+                        [ngClass]="{'bg-sky-400': order.orderStatus !== 'Served', 'bg-gray-400': order.orderStatus === 'Served'}"
+                        [disabled]="order.orderStatus === 'Served'">
+                        Edit
+                    </button>
+                    <button (click)="deleteOrder(order.orderID)" class="rounded p-2 bg-red-400">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+        <div class="bg-white p-6 rounded shadow-md w-2/6">
+            <h2 class="text-xl font-bold mb-4">Add Order</h2>
+            <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+                <div class="relative mb-4">
+                    <label for="nickname" class="leading-7 text-sm text-gray-600">Nickname</label>
+                    <input type="text" id="nickname" formControlName="nickname" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4 flex justify-between gap-4">
+                    <div class="flex-1">
+                        <label for="coffee" class="leading-7 text-sm text-gray-600">Coffee Type</label>
+                        <select id="coffee" formControlName="order" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="Espresso">Espresso</option>
+                            <option value="Cappuccino">Cappuccino</option>
+                            <option value="Latte">Latte</option>
+                            <option value="Americano">Americano</option>
+                            <option value="Mocha">Mocha</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="quantity" class="leading-7 text-sm text-gray-600">Quantity</label>
+                        <select id="quantity" formControlName="quantity" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="size" class="leading-7 text-sm text-gray-600">Size</label>
+                        <select id="size" formControlName="size" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="relative mb-4">
+                    <label for="notes" class="leading-7 text-sm text-gray-600">Notes</label>
+                    <input type="text" id="notes" formControlName="notes" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4">
+                    <label for="amount" class="leading-7 text-sm text-gray-600">Amount</label>
+                    <input type="nukber" id="amount" formControlName="amount" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="flex justify-end">
+                    <button class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2"
+                        (click)="toggleModal()">
+                        Close
+                    </button>
+                    <button class="bg-green-400 hover:bg-green-600 active:bg-green-500 text-white px-3 py-1 rounded">
+                        Add Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="showModalEdit" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+        <div class="bg-white p-6 rounded shadow-md w-2/6">
+            <h2 class="text-xl font-bold mb-4">Edit Order</h2>
+            <form [formGroup]="reactiveForm" (ngSubmit)="editOrder()">
+                <div class="relative mb-4">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Nickname</label>
+                    <input type="email" id="email" formControlName="nickname" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4 flex justify-between gap-4">
+                    <div class="flex-1">
+                        <label for="coffee" class="leading-7 text-sm text-gray-600">Coffee Type</label>
+                        <select id="coffee" formControlName="order" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="Espresso">Espresso</option>
+                            <option value="Cappuccino">Cappuccino</option>
+                            <option value="Latte">Latte</option>
+                            <option value="Americano">Americano</option>
+                            <option value="Mocha">Mocha</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="quantity" class="leading-7 text-sm text-gray-600">Quantity</label>
+                        <select id="quantity" formControlName="quantity" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="size" class="leading-7 text-sm text-gray-600">Size</label>
+                        <select id="size" formControlName="size" required
+                            class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="relative mb-4">
+                    <label for="notes" class="leading-7 text-sm text-gray-600">Notes</label>
+                    <input type="notes" id="notes" formControlName="notes" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4">
+                    <label for="amount" class="leading-7 text-sm text-gray-600">Amount</label>
+                    <input type="amount" id="amount" formControlName="amount" required
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="flex justify-end">
+                    <button class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2"
+                        (click)="toggleEditModal()">
+                        Close
+                    </button>
+                    <button class="bg-green-400 hover:bg-green-600 active:bg-green-500 text-white px-3 py-1 rounded">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

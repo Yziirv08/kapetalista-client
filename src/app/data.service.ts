@@ -8,27 +8,44 @@ import { Observable } from 'rxjs';
 
 export class DataService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/orders';
+  private orderURL = 'http://localhost:8080/api/v1/orders';
+  private membershipURL = 'http://localhost:8080/api/v1/membership';
 
   constructor(private http: HttpClient) { }
 
   getOrders(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-orders`);
+    return this.http.get<any[]>(`${this.orderURL}/get-orders`);
   }
 
-  postOrders(orderData): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiUrl}/create-order`, orderData);
+  postOrders(orderData: any): Observable<any[]> {
+    return this.http.post<any[]>(`${this.orderURL}/create-order`, orderData);
   }
 
   doneOrder(orderID: number): Observable<number>{
-    return this.http.put<number>(`${this.apiUrl}/update-order/${orderID}`, orderID);
+    return this.http.put<number>(`${this.orderURL}/update-order/${orderID}`, orderID);
   }
 
   deleteOrder(orderID: number): Observable<number>{
-    return this.http.delete<number>(`${this.apiUrl}/delete-order/${orderID}`);
+    return this.http.delete<number>(`${this.orderURL}/delete-order/${orderID}`);
   }
 
   editOrder(orderID: number, orderData): Observable<number>{
-    return this.http.put<number>(`${this.apiUrl}/edit-order/${orderID}`, orderData);
+    return this.http.put<number>(`${this.orderURL}/edit-order/${orderID}`, orderData);
+  }
+
+  getMembership(): Observable<any[]>{
+    return this.http.get<any[]>(`${this.membershipURL}/get-membership`);
+  }
+
+  postMembership(membershipData): Observable<any[]>{
+    return this.http.post<any[]>(`${this.membershipURL}/create-membership`, membershipData);
+  }
+
+  editMembership(membershipID: number, membershipData: any): Observable<number>{
+    return this.http.put<number>(`${this.membershipURL}/update-membership/${membershipID}`, membershipData);
+  }
+
+  deleteMembership(membershipID: number): Observable<number>{
+    return this.http.delete<number>(`${this.membershipURL}/delete-membership/${membershipID}`);
   }
 }

@@ -11,14 +11,27 @@
                 <th class=" p-2 text-gray-600">Actions</th>
             </tr>
         </thead>
-        <tbody >
-            
+        <tbody *ngFor="let membership of memberships">
+            <tr>
+                <td class="p-2 text-gray-600">{{membership.membershipID}}</td>
+                <td class="p-2 text-gray-600">{{membership.name}}</td>
+                <td class="p-2 text-gray-600">{{membership.contact}}</td>
+                <td class="p-2 text-gray-600">{{membership.email}}</td>
+                <td class="p-2 text-slate-100 flex gap-2 justify-center">
+                    <button (click)="showEdit(membership)" class="rounded p-2 bg-sky-400">
+                        Edit
+                    </button>
+                    <button (click)="deleteMembership(membership.membershipID)" class="rounded p-2 bg-red-400">
+                        Delete
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
     <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
         <div class="bg-white p-6 rounded shadow-md w-2/6">
             <h2 class="text-xl font-bold mb-4">Add Membership</h2>
-            <form>
+            <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
                 <div class="relative mb-4">
                     <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
                     <input type="text" id="name" formControlName="name" required
@@ -48,10 +61,10 @@
         </div>
     </div>
 
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full hidden">
+    <div *ngIf="showModalEdit" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
         <div class="bg-white p-6 rounded shadow-md w-2/6">
             <h2 class="text-xl font-bold mb-4">Edit Membership</h2>
-            <form >
+            <form [formGroup]="reactiveForm" (ngSubmit)="submitEditMembership()">
                 <div class="relative mb-4">
                     <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
                     <input type="text" id="name" formControlName="name" required
@@ -69,7 +82,7 @@
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
                 <div class="flex justify-end">
-                    <button class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
+                    <button (click)="toggleEditModal()" class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
                         Close
                     </button>
                     <button class="bg-green-400 hover:bg-green-600 active:bg-green-500 text-white px-3 py-1 rounded">

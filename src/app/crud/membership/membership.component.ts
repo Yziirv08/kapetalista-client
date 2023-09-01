@@ -60,9 +60,14 @@ export class MembershipComponent implements OnInit {
   onSubmit() {
     const formData = this.reactiveForm.value;
     const allFieldsFilled = Object.values(formData).every(value => value !== null && value !== '');
+    
+    if(!formData.email.includes("@")){
+      alert('Please use valid email address');
+      return;
+    }
 
     if (allFieldsFilled) {
-      this.dataService.postMembership (formData).subscribe(
+      this.dataService.postMembership(formData).subscribe(
         response => {
           alert('Membership Added!');
           window.location.reload();
@@ -78,6 +83,11 @@ export class MembershipComponent implements OnInit {
 
   submitEditMembership(){
     const formData = this.reactiveForm.value;
+    if(!formData.email.includes("@")){
+      alert('Please use valid email address');
+      return
+    }
+    
     this.dataService.editMembership(this.currentMembershipID, formData).subscribe(
       response => {
         alert("Membership has been updated successfully");

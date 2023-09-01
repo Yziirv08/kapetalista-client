@@ -1,7 +1,11 @@
 <div class="text-center w-[calc(100vw-18rem)] p-8 min-h-screen">
     <h2 class="text-2xl font-semibold">Membership List</h2>
     <button (click)="toggleModal()" class="bg-sky-500 text-white p-2 rounded my-4 hover:bg-sky-700">Add Membership</button>
-    <table class="w-full text-center overflow-y-auto">
+    <div *ngIf="memberships.length <= 0" class="flex items-center justify-center flex-col">
+        <img src="../../../assets/data.png" width="500" height="500">
+        <h1>Sorry, there's no data available at the moment.</h1>
+    </div>
+    <table class="w-full text-center overflow-y-auto" *ngIf="memberships.length > 0">
         <thead>
             <tr>
                 <th class=" p-2 text-gray-600">ID</th>
@@ -40,7 +44,7 @@
                 
                 <div class="relative mb-4">
                     <label for="contact" class="leading-7 text-sm text-gray-600">Contact No.</label>
-                    <input type="text" id="contact" formControlName="contact" required
+                    <input type="text" id="contact" formControlName="contact" required minlength="11" maxlength="11"
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
 

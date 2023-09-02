@@ -57,7 +57,7 @@ export class TakeorderComponent implements OnInit {
 
     this.reactiveForm.patchValue({
       nickname: order.nickname,
-      order: order.order,
+      order: order.coffeeOrder,
       quantity: order.quantity,
       size: order.size,
       notes: order.notes,

@@ -12,6 +12,8 @@ export class MembershipComponent implements OnInit {
   showModal = false;
   showModalEdit = false;
   currentMembershipID = null;
+  minDate: string; 
+
 
   toggleModal(){
     this.showModal = !this.showModal;
@@ -27,6 +29,12 @@ export class MembershipComponent implements OnInit {
   
   reactiveForm: FormGroup;
   ngOnInit(): void {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
+
     this.dataService.getMembership().subscribe(data => {
       this.memberships = data;
     });
@@ -35,6 +43,7 @@ export class MembershipComponent implements OnInit {
       name: new FormControl(null),
       contact: new FormControl(null),
       email: new FormControl(null),
+      date: new FormControl(null)
     }); 
   }
 
@@ -46,6 +55,7 @@ export class MembershipComponent implements OnInit {
       name: membership.name,
       contact: membership.contact,
       email: membership.email,
+      date: membership.date
     });
   }
 

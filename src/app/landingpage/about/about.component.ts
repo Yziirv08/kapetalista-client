@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AboutComponent {
   team = [
-    { name: "Aien Jazheel David", role: "Q/A Tester", img: "../../assets/aien.jpg" },
-    { name: "Hans Vincent Aguilar", role: "Frontend Engineer", img: "../../assets/vincent.jpg" },
-    { name: "Jeff Aloba", role: "Backend Engineer", img: "../../assets/jeff.jpg" },
-    { name: "Louiez Julian", role: "Marketing Specialist", img: "../../assets/jayne.png" },
-    { name: "Francis Lee Recanil", role: "UI/UX Developer", img: "../../assets/francis.jpg" },
+    { name: "Rogeline M Cadorna", role: "Q/A Tester", img: "../../assets/rog.jpg" },
+    { name: "Kristine May Solano", role: "Frontend Engineer", img: "../../assets/krstn.jpg" },
+    { name: "Jastine Joy MASONGSONG", role: "Backend Engineer", img: "../../assets/joy.jpg" },
+    { name: "KYM De Guzman", role: "Marketing Specialist", img: "../../assets/kym" },
+    { name: "Francis Lee Recanil", role: "Full stock WEB DEVELOPMENT", img: "../../assets/francis.jpg" },
   ];
 }

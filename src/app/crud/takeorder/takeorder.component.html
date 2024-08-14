@@ -1,5 +1,5 @@
 <div class="text-center w-[calc(100vw-18rem)] p-8 min-h-screen">
-    <h2 class="text-2xl font-semibold">Take Order</h2>
+    <h2 class="text-green-700 text-2xl font-semibold">Take Order</h2>
     <button class="bg-sky-500 text-white p-2 rounded my-4 hover:bg-sky-700" (click)="toggleModal()">Add Order</button>
     <div *ngIf="orders.length <= 0" class="flex items-center justify-center flex-col">
         <img src="../../../assets/data.png" width="500" height="500">
@@ -7,26 +7,29 @@
     </div>
     <table class="w-full text-center overflow-y-auto" *ngIf="orders.length > 0">
         <thead>
-            <tr>
-                <th class=" p-2 text-gray-600">ID</th>
-                <th class=" p-2 text-gray-600">Nickname</th>
-                <th class=" p-2 text-gray-600">Order Date</th>
-                <th class=" p-2 text-gray-600">Order</th>
-                <th class=" p-2 text-gray-600">Status</th>
-                <th class=" p-2 text-gray-600">Notes</th>
-                <th class=" p-2 text-gray-600">Amount</th>
-                <th class=" p-2 text-gray-600">Actions</th>
+            <tr class="bg-slate-200">
+                <th class=" p-2 text-gray-400">ID</th>
+                <th class=" p-2 text-gray-400">Nickname</th>
+                <th class=" p-2 text-gray-400">Order Date</th>
+                <th class=" p-2 text-gray-400">Order</th>
+                <th class=" p-2 text-gray-400">Status</th>
+                <th class=" p-2 text-gray-400">Notes</th>
+                <th class=" p-2 text-gray-400">Amount</th>
+                <th class=" p-2 text-gray-400">Actions</th>
             </tr>
         </thead>
-        <tbody *ngFor="let order of orders">
-            <tr>
-                <td class=" p-2 text-gray-600">{{order.orderID}}</td>
-                <td class=" p-2 text-gray-600">{{order.nickname}}</td>
-                <td class="p-2 text-gray-600">{{ order.orderDate | date:'MMM d yyyy hh:mm a' }}</td>
-                <td class=" p-2 text-gray-600">{{order.coffeeOrder}}-{{order.quantity}}-{{order.size}}</td>
-                <td class=" p-2 text-gray-600">{{order.orderStatus}}</td>
-                <td class=" p-2 text-gray-600">{{order.notes}}</td>
-                <td class=" p-2 text-gray-600">₱{{order.amount}}</td>
+        <tbody *ngFor="let order of orders; let i = index">
+            <tr [ngClass]="i % 2 === 1 ? 'bg-gray-100' : ''">
+                <td class=" p-2 text-gray-800 font-medium">{{order.orderID}}</td>
+                <td class=" p-2 text-gray-800 font-medium">{{order.nickname}}</td>
+                <td class=" p-2 text-gray-800 font-medium">{{ order.orderDate | date:'MMM d yyyy hh:mm a' }}</td>
+                <td class=" p-2 text-gray-800 font-medium">{{order.coffeeOrder}}-{{order.quantity}}-{{order.size}}</td>
+                <td class="text-gray-800 font-medium">
+                    <p class="max-w-max mx-auto p-1 rounded font-semibold" [ngClass]="order.orderStatus === 'pending' ? 'bg-yellow-300 text-yellow-700' : 'text-green-700 bg-green-300'">{{
+                        order.orderStatus }}</p>
+                </td>
+                <td class=" p-2 text-gray-800 font-medium">{{order.notes}}</td>
+                <td class=" p-2 text-gray-800 font-medium">₱{{order.amount}}</td>
                 <td class=" p-2 text-slate-100 flex gap-2 justify-center">
                     <button (click)="orderDone(order.orderID)" class="rounded p-2"
                         [ngClass]="{'bg-green-400': order.orderStatus !== 'Served', 'bg-gray-400': order.orderStatus === 'Served'}"

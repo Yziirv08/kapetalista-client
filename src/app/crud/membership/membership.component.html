@@ -1,26 +1,29 @@
 <div class="text-center w-[calc(100vw-18rem)] p-8 min-h-screen">
-    <h2 class="text-2xl font-semibold">Membership List</h2>
-    <button (click)="toggleModal()" class="bg-sky-500 text-white p-2 rounded my-4 hover:bg-sky-700">Add Membership</button>
+    <h2 class="text-green-700 text-2xl font-semibold">Membership List</h2>
+    <button (click)="toggleModal()" class="bg-sky-500 text-white p-2 rounded my-4 hover:bg-sky-700">Add
+        Membership</button>
     <div *ngIf="memberships.length <= 0" class="flex items-center justify-center flex-col">
         <img src="../../../assets/data.png" width="500" height="500">
         <h1>Sorry, there's no data available at the moment.</h1>
     </div>
     <table class="w-full text-center overflow-y-auto" *ngIf="memberships.length > 0">
         <thead>
-            <tr>
-                <th class=" p-2 text-gray-600">ID</th>
-                <th class=" p-2 text-gray-600">Nickname</th>
-                <th class=" p-2 text-gray-600">Contact No.</th>
-                <th class=" p-2 text-gray-600">Email</th>
-                <th class=" p-2 text-gray-600">Actions</th>
+            <tr class="bg-slate-200">
+                <th class="p-2 text-gray-400">ID</th>
+                <th class="p-2 text-gray-400">Nickname</th>
+                <th class="p-2 text-gray-400">Contact No.</th>
+                <th class="p-2 text-gray-400">Email</th>
+                <th class="p-2 text-gray-400">Valid Until</th>
+                <th class="p-2 text-gray-400">Actions</th>
             </tr>
         </thead>
-        <tbody *ngFor="let membership of memberships">
-            <tr>
-                <td class="p-2 text-gray-600">{{membership.membershipID}}</td>
-                <td class="p-2 text-gray-600">{{membership.name}}</td>
-                <td class="p-2 text-gray-600">{{membership.contact}}</td>
-                <td class="p-2 text-gray-600">{{membership.email}}</td>
+        <tbody *ngFor="let membership of memberships; let i = index">
+            <tr [ngClass]="i % 2 === 1 ? 'bg-gray-100' : ''">
+                <td class="p-2 text-gray-800 font-medium">{{membership.membershipID}}</td>
+                <td class="p-2 text-gray-800 font-medium">{{membership.name}}</td>
+                <td class="p-2 text-gray-800 font-medium">{{membership.contact}}</td>
+                <td class="p-2 text-gray-800 font-medium">{{membership.email}}</td>
+                <td class="p-2 text-gray-800 font-medium">{{membership.date}}</td>
                 <td class="p-2 text-slate-100 flex gap-2 justify-center">
                     <button (click)="showEdit(membership)" class="rounded p-2 bg-sky-400">
                         Edit
@@ -41,7 +44,7 @@
                     <input type="text" id="name" formControlName="name" required
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
-                
+
                 <div class="relative mb-4">
                     <label for="contact" class="leading-7 text-sm text-gray-600">Contact No.</label>
                     <input type="text" id="contact" formControlName="contact" required minlength="11" maxlength="11"
@@ -53,8 +56,16 @@
                     <input type="email" id="email" formControlName="email" required
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
+
+                <div class="relative mb-4">
+                    <label for="date" class="leading-7 text-sm text-gray-600">Date</label>
+                    <input type="date" id="date" formControlName="date" required [min]="minDate"
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+
                 <div class="flex justify-end">
-                    <button (click)="toggleModal()" class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
+                    <button (click)="toggleModal()"
+                        class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
                         Close
                     </button>
                     <button class="bg-green-400 hover:bg-green-600 active:bg-green-500 text-white px-3 py-1 rounded">
@@ -74,7 +85,7 @@
                     <input type="text" id="name" formControlName="name" required
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
-                
+
                 <div class="relative mb-4">
                     <label for="contact" class="leading-7 text-sm text-gray-600">Contact No.</label>
                     <input type="text" id="contact" formControlName="contact" required
@@ -85,8 +96,14 @@
                     <input type="email" id="email" formControlName="email" required
                         class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
+                <div class="relative mb-4">
+                    <label for="date" class="leading-7 text-sm text-gray-600">Date</label>
+                    <input type="date" id="date" formControlName="date" required [min]="minDate"
+                        class="w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
                 <div class="flex justify-end">
-                    <button (click)="toggleEditModal()" class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
+                    <button (click)="toggleEditModal()"
+                        class="bg-red-400 hover:bg-red-600 active:bg-red-500 text-white px-3 py-1 rounded mr-2">
                         Close
                     </button>
                     <button class="bg-green-400 hover:bg-green-600 active:bg-green-500 text-white px-3 py-1 rounded">

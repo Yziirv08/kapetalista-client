@@ -11,6 +11,6 @@ export class AboutComponent {
     { name: "Kristine May Solano", role: "Frontend Engineer", img: "../../assets/krstn.jpg" },
     { name: "Jastine Joy MASONGSONG", role: "Backend Engineer", img: "../../assets/joy.jpg" },
     { name: "KYM De Guzman", role: "Marketing Specialist", img: "../../assets/kym" },
-    { name: "Francis Lee Recanil", role: "Full stock WEB DEVELOPMENT", img: "../../assets/francis.jpg" },
+    { name: "Francis Lee Recanil", role: "Full stock WEB DEVELOPMENT", img: "../../assets/francis" },
   ];
 }
